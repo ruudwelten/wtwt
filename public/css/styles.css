@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;600;800&display=swap');
+
+:root {
+    --dark-gray: #636b6f;
+    --mediumdark-gray: #969C9F;
+    --mediumlight-gray: #C8CCCF;
+    --light-gray: #fbfdff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    font-family: 'Dosis', sans-serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+    height: 100vh;
+    margin: 0;
+}
+
+a {
+    color: var(--dark-gray);
+    text-decoration: underline;
+    text-decoration-color: var(--mediumlight-gray);
+}
+@media only screen and (max-width: 600px) {
+    html, body {
+        font-size: 1rem;
+    }
+}
+@media only screen and (max-width: 400px) {
+    html, body {
+        font-size: .8rem;
+    }
+}
+
+/* Layout */
+.wrapper {
+    position: relative;
+    min-height: 100vh;
+    width: 100vw;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.wrapper.dark {
+    padding: 5rem 0;
+
+    background: var(--dark-gray);
+    color: var(--light-gray);
+}
+.wrapper.dark a {
+    color: var(--light-gray);
+    text-decoration: underline;
+    text-decoration-color: var(--mediumdark-gray);
+}
+.container {
+    max-width: 30rem;
+    margin: 1.6rem auto;
+    padding: 0 0.8rem;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: center;
+    margin: -1.3rem 0 1.6rem;
+
+    font-family: 'Dosis', sans-serif;
+    font-weight: 200;
+    font-size: .8rem;
+    text-align: center;
+}
+.header h1 {
+    margin: 0 0 -0.8rem;
+
+    font-weight: 800;
+    font-size: 5rem;
+    letter-spacing: .1rem;
+}
+@media only screen and (max-width: 600px) {
+    .header {
+        margin-top: -2rem;
+    }
+}
+
+/* Temperature */
+.temperature {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1.6rem;
+    margin: 0 0 1.6rem;
+
+    font-family: 'Dosis', sans-serif;
+    font-weight: 600;
+    font-size: 3.4rem;
+}
+.temperature div {
+    text-align: center;
+}
+
+/* Weather icons */
+.icons {
+    display: flex;
+    margin: 0 0 0.4rem;
+}
+.icon {
+    text-align: center;
+    flex-grow: 1;
+}
+.icon img {
+    min-width: 7.5rem;
+    opacity: .6;
+}
+@media only screen and (max-width: 400px) {
+    .icons {
+        font-size: 1.2rem;
+    }
+}
+
+/* Forecast */
+.forecast {
+    margin: 0;
+
+    text-align: center;
+    font-size: 1.7rem;
+}
+
+/* Detailed weather data */
+.weather-data {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 4rem;
+    grid-row-gap: .5rem;
+    margin: 0;
+}
+.weather-data::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 2px;
+    min-height: 100%;
+    background: var(--mediumdark-gray);
+    margin-left: 100%;
+    left: -50%;
+    top: -2rem;
+    bottom: -2rem;
+    opacity: .2;
+}
+.weather-data div:nth-child(odd) {
+    text-align: right;
+}
+.weather-data div:nth-child(even) {
+    text-align: left;
+}
+.weather-data .unit {
+    font-weight: 200;
+    opacity: .5;
+}
+@media only screen and (max-width: 400px) {
+    .weather-data {
+        font-size: 1.4rem;
+    }
+}
+
+/* Icon links */
+.link {
+    margin-top: 4rem;
+    text-align: center;
+}
+.link a {
+    color: var(--mediumlight-gray);
+    text-decoration: none;
+}
+.wrapper.dark .link a {
+    color: var(--mediumdark-gray);
+}
+.link .icon {
+    fill: var(--mediumlight-gray);
+    width: 4rem;
+    height: 4rem;
+}
+.wrapper.dark .link .icon {
+    fill: var(--mediumdark-gray);
+}
+
+/* Charts */
+.chart {
+    margin: 4rem 0;
+
+    text-align: center;
+}
+.chart h2 {
+    font-weight: 300;
+}
+
+/* Footer */
+.footer {
+    position: absolute;
+    display: block;
+
+    bottom: .5rem;
+    left: 0;
+    right: 0;
+
+    text-align: center;
+}
+.footer a {
+    font-size: .6rem;
+    color: var(--mediumdark-gray);
+    text-decoration: none;
+}
+
+/* Scroll hint */
+.scroll {
+    position: fixed;
+    display: block;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2.5rem;
+
+    opacity: .3;
+    visibility: visible;
+    transition-property: opacity;
+    transition-delay: 3s;
+    transition-duration: 1s;
+    transition-timing-function: ease-in-out;
+}
+.scroll.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition-delay: 0s;
+    transition-duration: .2s;
+    transition-timing-function: ease-out;
+}
+.chevron {
+    display: block;
+    height: 1.6rem;
+    width: 1.6rem;
+    margin: auto;
+    fill: var(--foreground-color);
+}
+
+/* Colors */
+.red    { color: rgb(210, 50, 0); }
+.orange { color: rgb(220, 110, 0); }
+.yellow { color: rgb(240, 190, 0); }
+.blue   { color: rgb(0, 100, 210); }

@@ -1,61 +1,67 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# WTWT
+###### What's The Weather Today?
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+This is a small weather app for a technical challenge. It is based on the
+Laravel framework and acquires weather data from an API and displays the data on
+a simple webpage. The API only supplies data for The Netherlands.  
 
-## About Laravel
+## Setup
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Configure the application by creating a `.env` file in the root with the
+following app specific fields:  
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```
+DB_CONNECTION=sqlite
+DB_DATABASE=database.sqlite
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+DB_SECONDARY_CONNECTION=mysql
+DB_SECONDARY_DATABASE=wtwt
+DB_SECONDARY_HOST=127.0.0.1
+DB_SECONDARY_DATABASE=wtwt
+DB_SECONDARY_USERNAME=wtwt_dbo
+DB_SECONDARY_PASSWORD=correct-horse-battery-staple
 
-## Learning Laravel
+WEATHER_API_KEY={API key from weerlive.nl}
+WEATHER_LOCATION="Utrecht"
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Setup MySQL database, create the SQLite database (use filename specified in
+.env) and run migrate to create the tables:  
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    $ touch database/database.sqlite
+    $ php artisan migrate
 
-## Laravel Sponsors
+## Run tests
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    $ php artisan test
+    $ php artisan dusk
 
-### Premium Partners
+## Challenge
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+Create a Laravel app that fetches weather data from an API with a scheduled
+task, calculates both fahrenheit and celsius and saves the weather data in two
+different databases of different types. Save only the most recent data in one
+and save historic data in the other.  
 
-## Contributing
+Display the latest data on the homepage and send an email notification if the
+temperature raises above a threshold, you can set this threshold.  
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+You have four hours. If you have extra time, display the historic data in a
+graph or implement Laravel Queues.  
 
-## Code of Conduct
+## Possible improvements
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Save historic high and low values for every day, week and month in a separate
+  table. This way they don't have to be calculated every time.  
 
-## Security Vulnerabilities
+## Acknowledgements
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- [Weerlive.nl](https://weerlive.nl) for the 
+  [KNMI weather API](https://weerlive.nl/delen.php).  
+- [Konrad Michalik](http://konradmichalik.eu) for his
+  [weather icons](https://github.com/jackd248/weather-iconic).  
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project and the Lumen framework are open-sourced software licensed under
+the [MIT license](https://opensource.org/licenses/MIT).
