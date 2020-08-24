@@ -5,6 +5,10 @@ This is a small weather app for a technical challenge. It is based on the
 Laravel framework and acquires weather data from an API and displays the data on
 a simple webpage. The API only supplies data for The Netherlands.  
 
+[Live version](https://wtwt.ruudwelten.com)
+
+<img src="https://wtwt.ruudwelten.com/img/wtwt.png" alt="Screenshot">
+
 ## Setup
 
 Configure the application by creating a `.env` file in the root with the
