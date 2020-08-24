@@ -23,6 +23,17 @@ DB_SECONDARY_PASSWORD=correct-horse-battery-staple
 
 WEATHER_API_KEY={API key from weerlive.nl}
 WEATHER_LOCATION="Utrecht"
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+
+NOTIFICATION_EMAIL=notifyme@mydomain.tld
 ```
 
 Setup MySQL database, create the SQLite database (use filename specified in
@@ -56,7 +67,7 @@ graph or implement Laravel Queues.
 
 ## Acknowledgements
 
-- [Weerlive.nl](https://weerlive.nl) for the 
+- [Weerlive.nl](https://weerlive.nl) for the
   [KNMI weather API](https://weerlive.nl/delen.php).  
 - [Konrad Michalik](http://konradmichalik.eu) for his
   [weather icons](https://github.com/jackd248/weather-iconic).  
