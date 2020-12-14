@@ -9,6 +9,10 @@ a simple webpage. The API only supplies data for The Netherlands.
 
 <img src="https://wtwt.ruudwelten.com/img/wtwt.png" alt="Screenshot">
 
+## Requirements
+
+- PHP 7.4
+
 ## Setup
 
 Configure the application by creating a `.env` file in the root with the
@@ -40,8 +44,8 @@ MAIL_FROM_NAME="${APP_NAME}"
 NOTIFICATION_EMAIL=notifyme@mydomain.tld
 ```
 
-Setup MySQL database, create the SQLite database (use filename specified in
-.env) and run migrate to create the tables:  
+Create MySQL database, create the SQLite database (use database name and sqlite
+filename specified in .env) and run migrate to create the tables:  
 
     $ touch database/database.sqlite
     $ php artisan migrate
