@@ -12,7 +12,7 @@ class Weather extends Model
     public static function getTemperaturesLastDay()
     {
         return self::on(env('DB_SECONDARY_CONNECTION', 'mysql'))
-            ->select('celsius', 'created_at')
+            ->select('celsius AS y', 'created_at AS t')
             ->where('created_at', '>', date('Y-m-d H:i:s', strtotime("-1 day")))
             ->orderBy('created_at', 'asc')
             ->get();

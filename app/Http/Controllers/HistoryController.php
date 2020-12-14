@@ -23,14 +23,7 @@ class HistoryController extends Controller
 
     private function constructDayDataset()
     {
-        $data = Weather::getTemperaturesLastDay()->toArray();
-        foreach ($data as $key => $value) {
-            $data[$key] = [
-                't' => $value['created_at'],
-                'y' => $value['celsius'],
-            ];
-        }
-        return $data;
+        return Weather::getTemperaturesLastDay();
     }
 
     private function constructWeekDataset()

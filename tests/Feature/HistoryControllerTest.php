@@ -15,9 +15,7 @@ class HistoryControllerTest extends TestCase
         $controller = new HistoryController();
         $constructDayDataset = $this->getPrivateMethod($controller, 'constructDayDataset');
 
-        $expected = [];
-
-        $this->assertEquals($constructDayDataset->invoke($controller), $expected);
+        $this->assertTrue($constructDayDataset->invoke($controller)->isEmpty());
     }
 
     public function testConstructHighLowDatasetEmpty()
