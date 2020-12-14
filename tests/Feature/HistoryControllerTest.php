@@ -116,7 +116,7 @@ class HistoryControllerTest extends TestCase
         $this->assertArrayHasKey('high', $result);
         $this->assertArrayHasKey('low', $result);
         foreach ($result as $set) {
-            $this->assertEquals(count($set), 4);
+            $this->assertTrue(count($set) == 3 || count($set) == 4);
             foreach ($set as $r) {
                 $this->assertArrayHasKey('t', $r);
                 $this->assertArrayHasKey('y', $r);
