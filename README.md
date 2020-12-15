@@ -1,7 +1,7 @@
 # WTWT
 ###### What's The Weather Today?
 
-This is a small weather app for a technical challenge. It is based on the
+This is a small weather app made for a technical challenge. It is based on the
 Laravel framework and acquires weather data from an API and displays the data on
 a simple webpage. The API only supplies data for The Netherlands.  
 
@@ -44,13 +44,34 @@ MAIL_FROM_NAME="${APP_NAME}"
 NOTIFICATION_EMAIL=notifyme@mydomain.tld
 ```
 
+Install the project by running:
+
+    $ composer install --no-dev
+
 Create MySQL database, create the SQLite database (use database name and sqlite
 filename specified in .env) and run migrate to create the tables:  
 
     $ touch database/database.sqlite
     $ php artisan migrate
 
+To run the scheduled commands to retrieve weather data from the API and send
+notifications by email add the Laravel Scheduler to the cron table. Run:  
+
+    $ crontab -e
+
+And add the following line:
+
+```
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+```
+
 ## Run tests
+
+Before running the tests, be sure to install the development dependencies:  
+
+    $ composer install
+
+Once these are installed, run the tests by running:  
 
     $ php artisan test
     $ php artisan dusk
@@ -82,5 +103,5 @@ graph or implement Laravel Queues.
 
 ## License
 
-This project and the Lumen framework are open-sourced software licensed under
+This project and the Laravel framework are open-sourced software licensed under
 the [MIT license](https://opensource.org/licenses/MIT).
