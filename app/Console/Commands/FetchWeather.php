@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Weather;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\DB;
 
 class FetchWeather extends Command
 {
@@ -47,81 +46,51 @@ class FetchWeather extends Command
             'http://weerlive.nl/api/json-data-10min.php?key=' .
             env('WEATHER_API_KEY') . '&locatie=' . $this->argument('place')
         );
-        $weather = $response['liveweer'][0];
 
         if ($response->successful()) {
-            $time = date('Y-m-d H:i:s');
+            $weatherData = $this->wrangleApiResponse($response);
 
-            // alarmtxt is not included when alarm == 0
-            if ($weather['alarm'] == 0) {
-                $weather['alarmtxt'] = '';
-            }
-
-            // Add closing period to forecast
-            if ($weather['verw'] == '_') {
-                $weather['verw'] = '';
-            } else {
-                $weather['verw'] .= '.';
-            }
-
-            // Update latest data in SQLite database
-            DB::connection(env('DB_CONNECTION', 'sqlite'))->table('weather')->where('id', 1)->update([
-                'city' => $this->argument('place'),
-                'forecast' => $weather['verw'],
-                'celsius' => $weather['temp'],
-                'fahrenheit' => $this->celsiusToFahrenheit($weather['temp']),
-                'apparent_celsius' => $weather['gtemp'],
-                'apparent_fahrenheit' => $this->celsiusToFahrenheit($weather['gtemp']),
-                'wind_speed_bft' => $weather['winds'],
-                'wind_speed_kmh' => $weather['windkmh'],
-                'wind_speed_kn' => $weather['windk'],
-                'wind_direction' => $weather['windr'],
-                'humidity' => $weather['lv'],
-                'dew_point' => $weather['dauwp'],
-                'air_pressure' => $weather['luchtd'],
-                'sight' => $weather['zicht'],
-                'sunrise' => strtotime($weather['sup']),
-                'sunset' => strtotime($weather['sunder']),
-                'icon_today' => $weather['d0weer'],
-                'icon_tomorrow' => $weather['d1weer'],
-                'icon_overmorrow' => $weather['d2weer'],
-                'alarm' => $weather['alarm'],
-                'alarm_text' => $weather['alarmtxt'],
-                'updated_at' => $time,
-            ]);
-
-            // Store historic data in MySQL database
-            DB::connection(env('DB_SECONDARY_CONNECTION', 'mysql'))
-                ->table('weather')
-                ->insert([
-                    'city' => $this->argument('place'),
-                    'forecast' => $weather['verw'],
-                    'celsius' => $weather['temp'],
-                    'fahrenheit' => $this->celsiusToFahrenheit($weather['temp']),
-                    'apparent_celsius' => $weather['gtemp'],
-                    'apparent_fahrenheit' => $this->celsiusToFahrenheit($weather['gtemp']),
-                    'wind_speed_bft' => $weather['winds'],
-                    'wind_speed_kmh' => $weather['windkmh'],
-                    'wind_speed_kn' => $weather['windk'],
-                    'wind_direction' => $weather['windr'],
-                    'humidity' => $weather['lv'],
-                    'dew_point' => $weather['dauwp'],
-                    'air_pressure' => $weather['luchtd'],
-                    'sight' => $weather['zicht'],
-                    'sunrise' => strtotime($weather['sup']),
-                    'sunset' => strtotime($weather['sunder']),
-                    'icon_today' => $weather['d0weer'],
-                    'icon_tomorrow' => $weather['d1weer'],
-                    'icon_overmorrow' => $weather['d2weer'],
-                    'alarm' => $weather['alarm'],
-                    'alarm_text' => $weather['alarmtxt'],
-                    'created_at' => $time,
-                ]);
+            Weather::saveToBothDatabases($weatherData);
         }
     }
 
     private function celsiusToFahrenheit($celsius)
     {
         return ($celsius * 9 / 5) + 32;
+    }
+
+    private function wrangleApiResponse($data)
+    {
+        $data = $data['liveweer'][0];
+        $weatherData = [
+            'city'                => $this->argument('place'),
+            'celsius'             => $data['temp'],
+            'fahrenheit'          => $this->celsiusToFahrenheit($data['temp']),
+            'apparent_celsius'    => $data['gtemp'],
+            'apparent_fahrenheit' => $this->celsiusToFahrenheit($data['gtemp']),
+            'wind_speed_bft'      => $data['winds'],
+            'wind_speed_kmh'      => $data['windkmh'],
+            'wind_speed_kn'       => $data['windk'],
+            'wind_direction'      => $data['windr'],
+            'humidity'            => $data['lv'],
+            'dew_point'           => $data['dauwp'],
+            'air_pressure'        => $data['luchtd'],
+            'sight'               => $data['zicht'],
+            'sunrise'             => strtotime($data['sup']),
+            'sunset'              => strtotime($data['sunder']),
+            'icon_today'          => $data['d0weer'],
+            'icon_tomorrow'       => $data['d1weer'],
+            'icon_overmorrow'     => $data['d2weer'],
+            'alarm'               => $data['alarm'],
+            'alarm_text'          => $data['alarmtxt'] ?? '',  // alarmtxt is not included when alarm == 0
+        ];
+
+        // Add closing period to forecast
+        $weatherData['forecast'] = $data['verw'] . '.';
+        if ($weatherData['forecast'] == '_.') {
+            $weatherData['forecast'] = '';
+        }
+
+        return $weatherData;
     }
 }
