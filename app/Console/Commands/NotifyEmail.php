@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Weather;
 use App\Mail\ApiNotification;
 use App\Mail\TemperatureNotification;
 
@@ -50,8 +50,7 @@ class NotifyEmail extends Command
      */
     private function sendApiNotification()
     {
-        $latest = DB::connection(env('DB_SECONDARY_CONNECTION', 'mysql'))
-            ->table('weather')
+        $latest = Weather::on(env('DB_SECONDARY_CONNECTION', 'mysql'))
             ->select('created_at')
             ->latest()
             ->first();
@@ -73,8 +72,7 @@ class NotifyEmail extends Command
      */
     private function sendTemperatureNotification()
     {
-        $latest = DB::connection(env('DB_SECONDARY_CONNECTION', 'mysql'))
-            ->table('weather')
+        $latest = Weather::on(env('DB_SECONDARY_CONNECTION', 'mysql'))
             ->select('celsius', 'fahrenheit')
             ->latest()
             ->first();
@@ -86,8 +84,7 @@ class NotifyEmail extends Command
             return;
         }
 
-        $heat = DB::connection(env('DB_SECONDARY_CONNECTION', 'mysql'))
-            ->table('weather')
+        $heat = Weather::on(env('DB_SECONDARY_CONNECTION', 'mysql'))
             ->select('created_at')
             ->where('celsius', '>=', 30)
             ->where('created_at', '>=', date('Y-m-d H:i:s', strtotime('-12 hours')))
