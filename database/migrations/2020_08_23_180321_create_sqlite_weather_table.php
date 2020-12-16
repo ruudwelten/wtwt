@@ -14,7 +14,7 @@ class CreateSqliteWeatherTable extends Migration
     public function up()
     {
         Schema::connection(env('DB_CONNECTION', 'mysql'))->create('weather', function (Blueprint $table) {
-            $table->integer('id');
+            $table->integer('id')->unique();
             $table->text('city');
             $table->longtext('forecast');
             $table->float('celsius');
