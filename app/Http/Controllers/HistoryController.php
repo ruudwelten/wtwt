@@ -63,17 +63,17 @@ class HistoryController extends Controller
      */
     private function constructHighLowDataset($grouping, $start)
     {
-        $data = Weather::getHighLowTemperatures($grouping, $start)->toArray();
+        $data = Weather::getHighLowTemperatures($grouping, $start);
         $lowData = [];
         $highData = [];
         foreach ($data as $key => $value) {
             $lowData[$key] = [
-                't' => $value['grouping'],
-                'y' => $value['low'],
+                't' => $value->grouping,
+                'y' => $value->low,
             ];
             $highData[$key] = [
-                't' => $value['grouping'],
-                'y' => $value['high'],
+                't' => $value->grouping,
+                'y' => $value->high,
             ];
         }
         return ['high' => $highData, 'low' => $lowData];

@@ -15,16 +15,14 @@ class HomeController extends Controller
     {
         $weather = Weather::on('sqlite')->latest()->first();
 
-        $data = $weather->toArray();
+        $weather->celsius = round($weather->celsius, 1);
+        $weather->fahrenheit = round($weather->fahrenheit, 1);
+        $weather->tempColor = $this->getTempColor($weather->celsius);
+        $weather->icon_today = $this->getIcon($weather->icon_today);
+        $weather->icon_tomorrow = $this->getIcon($weather->icon_tomorrow);
+        $weather->icon_overmorrow = $this->getIcon($weather->icon_overmorrow);
 
-        $data['celsius'] = round($weather->celsius, 1);
-        $data['fahrenheit'] = round($weather->fahrenheit, 1);
-        $data['tempColor'] = $this->getTempColor($weather->celsius);
-        $data['icon_today'] = $this->getIcon($weather->icon_today);
-        $data['icon_tomorrow'] = $this->getIcon($weather->icon_tomorrow);
-        $data['icon_overmorrow'] = $this->getIcon($weather->icon_overmorrow);
-
-        return view('home', $data);
+        return view('home', $weather);
     }
 
     private function getTempColor($temperatureInCelsius)
