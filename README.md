@@ -12,6 +12,7 @@ a simple webpage. The API only supplies data for The Netherlands.
 ## Requirements
 
 - PHP 7.4
+- Composer
 
 ## Setup
 
@@ -88,6 +89,9 @@ temperature raises above a threshold, you can set this threshold.
 
 You have four hours. If you have extra time, display the historic data in a
 graph or implement Laravel Queues.  
+
+After the [initial four hour challenge](https://github.com/ruudwelten/wtwt/tree/f1d4be764b5585861221f89f50497bde42c05e71)
+some refactoring has been done to improve the code quality.  
 
 ## Possible improvements
 
