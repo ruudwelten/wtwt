@@ -41,7 +41,7 @@ class FetchWeather extends Command
      */
     public function handle()
     {
-        // Get weather data from weelive.nl API, set WEATHER_API_KEY in .env
+        // Get weather data from weerlive.nl API, set WEATHER_API_KEY in .env
         $response = Http::retry(3, 10000)->get(
             'http://weerlive.nl/api/json-data-10min.php?key=' .
             env('WEATHER_API_KEY') . '&locatie=' . $this->argument('place')
